@@ -218,12 +218,12 @@ defaults?.set("1.0", forKey: "invite.version")
 
 **Invite URL:**
 ```
-https://{project-slug}.cn1invite.com/i/{shortCode}?ref={referrerId}&meta={metadata}
+https://invite.codenameone.com/i/{shortCode}?ref={referrerId}&meta={metadata}
 ```
 
 **Example:**
 ```
-https://myapp.cn1invite.com/i/abc123?ref=user456&meta=campaign:summer2024,source:email
+https://invite.codenameone.com/i/abc123?ref=user456&meta=campaign:summer2024,source:email
 ```
 
 **Query Parameters:**
