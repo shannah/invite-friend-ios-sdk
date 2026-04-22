@@ -71,8 +71,9 @@ public final class CN1InviteKit {
     public static func parseInviteURL(_ url: URL) -> InviteData? {
         Logger.log("Parsing invite URL: \(url)", level: .debug)
 
-        // Validate host contains cn1invite.com
-        guard let host = url.host, host.contains("cn1invite.com") else {
+        // Validate host contains a known invite domain
+        guard let host = url.host,
+              host.contains("cn1invite.com") || host.contains("invite-friend.com") else {
             Logger.log("Invalid host: \(url.host ?? "nil")", level: .warning)
             return nil
         }

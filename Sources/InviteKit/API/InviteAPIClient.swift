@@ -43,11 +43,17 @@ public final class InviteAPIClient: InviteAPIClientProtocol {
 
         let response: CreateInviteResponse = try await performRequest(request)
 
+        let formatter = ISO8601DateFormatter()
+        formatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+        let createdAt = formatter.date(from: response.createdAt)
+            ?? ISO8601DateFormatter().date(from: response.createdAt)
+            ?? Date()
+
         return InviteResult(
-            referrerId: response.referrerId,
+            referrerId: referrerId,
             shortCode: response.shortCode,
-            metadata: response.metadata,
-            createdAt: response.createdAt
+            metadata: metadata,
+            createdAt: createdAt
         )
     }
 
@@ -157,11 +163,10 @@ struct CreateInviteRequest: Encodable {
 }
 
 struct CreateInviteResponse: Decodable {
+    let inviteUrl: String
     let shortCode: String
-    let referrerId: String
-    let metadata: [String: String]?
-    let createdAt: Date
-    let inviteURL: String
+    let createdAt: String
+    let warning: String?
 }
 
 struct InviteDetailsResponse: Decodable {

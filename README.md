@@ -53,6 +53,25 @@ Or in Xcode:
 | `InviteKit` | Main app - full SDK functionality |
 | `CN1InviteKit` | App Clip - lightweight URL parsing and storage |
 
+## Domain Architecture
+
+The invite-friend service uses two separate domains:
+
+| Domain | Purpose |
+|--------|---------|
+| `invite.codenameone.com` | API endpoint — pass this as `baseURL` when configuring the SDK |
+| `*.invite-friend.com` | Public-facing invite links and Apple/Google `.well-known` verification files |
+
+A separate TLD (`invite-friend.com`) is used for public invite links so that end users don't see any affiliation with Codename One. Each app gets its own subdomain (e.g. `myapp.invite-friend.com`).
+
+When configuring the SDK, use the API domain:
+```swift
+InviteKit.configure(
+    apiKey: "your-api-key",
+    baseURL: URL(string: "https://invite.codenameone.com")!
+)
+```
+
 ## Quick Start
 
 ### Main App Setup
