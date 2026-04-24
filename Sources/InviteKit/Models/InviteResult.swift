@@ -4,7 +4,8 @@ import Foundation
 public struct InviteResult: Codable, Equatable {
 
     /// The unique identifier of the user who created the invite.
-    public let referrerId: String
+    /// May be `nil` when the invite was stored without a referrer (e.g. URL had no `ref` param).
+    public let referrerId: String?
 
     /// The short code for the invite link.
     public let shortCode: String
@@ -17,18 +18,21 @@ public struct InviteResult: Codable, Equatable {
 
     /// The full invite URL.
     public var inviteURL: URL? {
-        URL(string: "https://cn1invite.com/i/\(shortCode)?ref=\(referrerId)")
+        if let referrerId {
+            return URL(string: "https://cn1invite.com/i/\(shortCode)?ref=\(referrerId)")
+        }
+        return URL(string: "https://cn1invite.com/i/\(shortCode)")
     }
 
     /// Creates a new invite result.
     ///
     /// - Parameters:
-    ///   - referrerId: The unique identifier of the referrer.
+    ///   - referrerId: The unique identifier of the referrer (may be nil).
     ///   - shortCode: The short code for the invite link.
     ///   - metadata: Optional metadata dictionary.
     ///   - createdAt: The creation date.
     public init(
-        referrerId: String,
+        referrerId: String?,
         shortCode: String,
         metadata: [String: String]? = nil,
         createdAt: Date = Date()

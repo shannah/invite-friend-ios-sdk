@@ -97,11 +97,6 @@ public final class CN1InviteKit {
         let queryItems = components.queryItems ?? []
         let referrerId = queryItems.first(where: { $0.name == "ref" })?.value
 
-        guard let referrerId = referrerId else {
-            Logger.log("Missing required 'ref' parameter", level: .warning)
-            return nil
-        }
-
         // Parse optional metadata (base64 encoded JSON)
         var metadata: [String: String]?
         if let metaString = queryItems.first(where: { $0.name == "meta" })?.value,
@@ -117,7 +112,7 @@ public final class CN1InviteKit {
             createdAt: Date()
         )
 
-        Logger.log("Successfully parsed invite: referrerId=\(referrerId), shortCode=\(shortCode)", level: .info)
+        Logger.log("Successfully parsed invite: referrerId=\(referrerId ?? "nil"), shortCode=\(shortCode)", level: .info)
         return inviteData
     }
 

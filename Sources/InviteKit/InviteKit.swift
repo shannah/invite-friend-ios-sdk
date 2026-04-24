@@ -116,6 +116,26 @@ public final class InviteKit {
         }
     }
 
+    // MARK: - Invite Lookup
+
+    /// Retrieves invite details from the server by short code.
+    ///
+    /// Use this to look up the full invite details (including referrerId) when the
+    /// locally stored invite may not have all fields (e.g. URL had no `ref` parameter).
+    ///
+    /// - Parameter shortCode: The short code of the invite to look up.
+    /// - Returns: An `InviteResult` containing the full invite details.
+    /// - Throws: `InviteError` if the operation fails.
+    public static func getInvite(shortCode: String) async throws -> InviteResult {
+        try ensureConfigured()
+
+        guard let apiClient = shared.apiClient else {
+            throw InviteError.notConfigured
+        }
+
+        return try await apiClient.getInvite(shortCode: shortCode)
+    }
+
     // MARK: - Attribution Checking
 
     /// Checks for any pending invite attribution from an App Clip.

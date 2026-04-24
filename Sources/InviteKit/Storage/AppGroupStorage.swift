@@ -61,7 +61,11 @@ public final class AppGroupStorage: InviteStorageProtocol {
     // MARK: - InviteStorageProtocol
 
     public func saveInvite(_ invite: InviteResult) {
-        userDefaults.set(invite.referrerId, forKey: Keys.referrerId)
+        if let referrerId = invite.referrerId {
+            userDefaults.set(referrerId, forKey: Keys.referrerId)
+        } else {
+            userDefaults.removeObject(forKey: Keys.referrerId)
+        }
         userDefaults.set(invite.shortCode, forKey: Keys.shortCode)
         userDefaults.set(dateFormatter.string(from: invite.createdAt), forKey: Keys.createdAt)
         userDefaults.set(AppGroupStorage.currentVersion, forKey: Keys.version)
@@ -79,8 +83,8 @@ public final class AppGroupStorage: InviteStorageProtocol {
     }
 
     public func getInvite() -> InviteResult? {
-        guard let referrerId = userDefaults.string(forKey: Keys.referrerId),
-              let shortCode = userDefaults.string(forKey: Keys.shortCode),
+        let referrerId = userDefaults.string(forKey: Keys.referrerId)
+        guard let shortCode = userDefaults.string(forKey: Keys.shortCode),
               let createdAtString = userDefaults.string(forKey: Keys.createdAt),
               let createdAt = dateFormatter.date(from: createdAtString) else {
             return nil
@@ -111,7 +115,7 @@ public final class AppGroupStorage: InviteStorageProtocol {
     }
 
     public func hasInvite() -> Bool {
-        return userDefaults.string(forKey: Keys.referrerId) != nil
+        return userDefaults.string(forKey: Keys.shortCode) != nil
     }
 
     // MARK: - Private Helpers

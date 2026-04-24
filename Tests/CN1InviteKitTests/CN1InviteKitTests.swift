@@ -46,7 +46,9 @@ final class CN1InviteKitTests: XCTestCase {
         let url = URL(string: "https://myapp.cn1invite.com/i/abc123")!
         let result = CN1InviteKit.parseInviteURL(url)
 
-        XCTAssertNil(result)
+        XCTAssertNotNil(result)
+        XCTAssertEqual(result?.shortCode, "abc123")
+        XCTAssertNil(result?.referrerId)
     }
 
     func testParseInviteURLWithInvalidPath() {

@@ -30,7 +30,8 @@ public protocol InviteStorageProtocol {
 public struct InviteResult: Codable, Equatable {
 
     /// The unique identifier of the user who created the invite.
-    public let referrerId: String
+    /// May be `nil` when the invite URL did not include a `ref` query parameter.
+    public let referrerId: String?
 
     /// The short code for the invite link.
     public let shortCode: String
@@ -43,7 +44,7 @@ public struct InviteResult: Codable, Equatable {
 
     /// Creates a new invite result.
     public init(
-        referrerId: String,
+        referrerId: String?,
         shortCode: String,
         metadata: [String: String]? = nil,
         createdAt: Date = Date()
