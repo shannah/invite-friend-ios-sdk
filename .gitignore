@@ -25,3 +25,4 @@ xcuserdata/
 
 # CocoaPods (if used)
 Pods/
+.litecode/
